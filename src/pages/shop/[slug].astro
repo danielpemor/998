@@ -4,6 +4,7 @@
   Se desactiva pre-render para que Netlify no intente ejecutar getStaticPaths()
   mientras el backend de Directus no esté desplegado o accesible públicamente.
 */
+export const prerender = false;
 
 import Layout from '../../components/layout/Layout.astro';
 import ProductGrid from '../../components/shop/ProductGrid.astro';

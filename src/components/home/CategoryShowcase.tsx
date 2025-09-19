@@ -117,18 +117,6 @@ export default function CategoryShowcase() {
       </div>
 
       {/* Custom navigation buttons centrados */}
-      <div className="container mx-auto px-4 mt-8 flex justify-center space-x-4">
-        <button className="swiper-button-prev w-12 h-12 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors duration-300 shadow-lg">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <button className="swiper-button-next w-12 h-12 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors duration-300 shadow-lg">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
     </section>
   );
 }
