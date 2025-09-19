@@ -6,6 +6,7 @@ import path from 'path';
 export default defineConfig({
   integrations: [react(), tailwind()],
   output: 'server',
+  adapter: netlify(),
   vite: {
     resolve: {
       alias: {
