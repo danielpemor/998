@@ -1,7 +1,7 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import ProductGrid from '../../components/shop/ProductGrid.astro';
-import { directus } from '@lib/directus';
+import directus from '@lib/directus';
 
 export async function getStaticPaths() {
   const { data: categories } = await directus.request(
