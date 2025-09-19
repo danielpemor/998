@@ -13,6 +13,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@astrojs/netlify": "^6.5.10",
     "@astrojs/react": "^3.0.7",
     "@astrojs/tailwind": "^5.0.3",
     "@directus/sdk": "^13.0.0",
@@ -23,7 +24,7 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
-    "astro": "^4.0.7",
+    "astro": "^5.13.9",
     "framer-motion": "^12.23.15",
     "nanostores": "^0.9.5",
     "react": "^18.2.0",
@@ -35,7 +36,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@astrojs/vercel": "^6.0.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "dotenv": "^16.3.1",
