@@ -1,17 +1,32 @@
-// src/pages/shop/[slug].astro
 ---
-export const prerender = true; // Pre-renderiza páginas estáticas
+/* 
+  ⚠️ IMPORTANTE: 
+  Se desactiva pre-render para que Netlify no intente ejecutar getStaticPaths()
+  mientras el backend de Directus no esté desplegado o accesible públicamente.
+*/
 
-import { getProductBySlug, getAllProducts } from '../../lib/directus';
+import Layout from '../../components/layout/Layout.astro';
+import ProductGrid from '../../components/shop/ProductGrid.astro';
+import { getProductBySlug } from '../../lib/directus';
 
-// Genera rutas estáticas en build time
-export async function getStaticPaths() {
-  const products = await getAllProducts();
-  return products.map(product => ({
-    params: { slug: product.slug },
-    props: { product }
-  }));
+// Obtén el slug de la URL
+const { slug } = Astro.params;
+
+// Trae los datos del producto dinámicamente
+const product = await getProductBySlug(slug);
+
+if (!product) {
+  throw new Error(`Producto no encontrado: ${slug}`);
 }
-
-const { product } = Astro.props;
 ---
+
+<Layout title={`${product.name} | Tu Tienda`}>
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">{product.name}</h1>
+    {product.description && (
+      <p class="text-gray-600 mb-12 max-w-3xl">{product.description}</p>
+    )}
+    
+    <ProductGrid products={[product]} />
+  </div>
+</Layout>
