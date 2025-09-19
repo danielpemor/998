@@ -1,0 +1,126 @@
+// directus/schema/homepage.js
+
+// Colección para el Hero
+{
+  collection: 'hero_sections',
+  fields: [
+    { field: 'id', type: 'uuid', primary_key: true },
+    { field: 'title', type: 'string', required: true },
+    { field: 'subtitle', type: 'string' },
+    { field: 'description', type: 'text' },
+    { field: 'cta_primary_text', type: 'string' },
+    { field: 'cta_primary_link', type: 'string' },
+    { field: 'cta_secondary_text', type: 'string' },
+    { field: 'cta_secondary_link', type: 'string' },
+    { field: 'background_video', type: 'file' },
+    { field: 'background_image', type: 'file' },
+    { field: 'text_color', type: 'string', default: '#FFFFFF' },
+    { field: 'overlay_opacity', type: 'decimal', default: 0.3 },
+    { field: 'order', type: 'integer' },
+    { field: 'active', type: 'boolean', default: true }
+  ]
+}
+
+// Colección para Editorial Features
+{
+  collection: 'editorial_features',
+  fields: [
+    { field: 'id', type: 'uuid', primary_key: true },
+    { field: 'title', type: 'string', required: true },
+    { field: 'subtitle', type: 'string' },
+    { field: 'description', type: 'text' },
+    { field: 'image', type: 'file' },
+    { field: 'link', type: 'string' },
+    { field: 'order', type: 'integer' },
+    { field: 'active', type: 'boolean', default: true }
+  ]
+}
+
+// Colección para Lookbook
+{
+  collection: 'lookbook_items',
+  fields: [
+    { field: 'id', type: 'uuid', primary_key: true },
+    { field: 'title', type: 'string', required: true },
+    { field: 'description', type: 'string' },
+    { field: 'image', type: 'file' },
+    { field: 'link', type: 'string' },
+    { field: 'collection', type: 'string' }, // SS24, FW24, etc.
+    { field: 'order', type: 'integer' },
+    { field: 'featured_home', type: 'boolean', default: false },
+    { field: 'status', type: 'string', default: 'published' }
+  ]
+}
+
+// Colección para Secciones del Homepage
+{
+  collection: 'homepage_sections',
+  fields: [
+    { field: 'id', type: 'uuid', primary_key: true },
+    { field: 'section_type', type: 'string' }, // hero, features, lookbook, products, etc.
+    { field: 'title', type: 'string' },
+    { field: 'subtitle', type: 'string' },
+    { field: 'description', type: 'text' },
+    { field: 'settings', type: 'json' }, // Configuraciones específicas
+    { field: 'order', type: 'integer' },
+    { field: 'active', type: 'boolean', default: true }
+  ]
+}
+
+
+---
+// src/pages/index.astro (con datos de Directus)
+import Layout from '../components/layout/Layout.astro';
+import FeaturedProducts from '../components/home/FeaturedProducts.astro';
+import { getHomepageData } from '../lib/directus-homepage';
+
+// Obtener datos de Directus
+const { hero, features, lookbook, sections } = await getHomepageData();
+
+// Datos para pasar a componentes React
+const pageData = {
+  hero: hero || {
+    title: "REDEFINIENDO el lujo",
+    subtitle: "Colección SS24",
+    description: "Una colección que fusiona la elegancia atemporal con la innovación contemporánea",
+    background_video: "https://cdn.coverr.co/videos/coverr-woman-modeling-clothes-1005/1080p.mp4",
+    cta_primary_text: "DESCUBRIR COLECCIÓN",
+    cta_primary_link: "/shop",
+    cta_secondary_text: "VER LOOKBOOK",
+    cta_secondary_link: "/lookbook"
+  },
+  features: features.length > 0 ? features : [
+    // Datos por defecto si no hay en Directus
+    {
+      title: "CRAFTED IN ITALY",
+      subtitle: "Artesanía Italiana",
+      description: "Cada pieza es meticulosamente elaborada...",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=90"
+    }
+    // ... más features por defecto
+  ],
+  lookbook: lookbook,
+  sections: sections
+};
+---
+
+<!-- El resto del HTML permanece igual, pero ahora con datos dinámicos -->
+<Layout title="Inicio" description="Tienda - Redefiniendo el lujo contemporáneo">
+  <!-- Pasa los datos a los componentes React -->
+  <div id="hero-section" data-hero={JSON.stringify(pageData.hero)}></div>
+  <div id="editorial-features" data-features={JSON.stringify(pageData.features)}></div>
+  <FeaturedProducts />
+  <div id="lookbook-preview" data-lookbook={JSON.stringify(pageData.lookbook)}></div>
+  <!-- ... resto del contenido ... -->
+</Layout>
+
+<script define:vars={{ pageData }}>
+  // Los componentes React pueden acceder a los datos así:
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroContainer = document.getElementById('hero-section');
+    if (heroContainer) {
+      const heroData = JSON.parse(heroContainer.dataset.hero || '{}');
+      // Pasar heroData al componente
+    }
+  });
+</script>

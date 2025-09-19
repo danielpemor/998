@@ -1,0 +1,89 @@
+---
+// src/pages/shop/index.astro
+import Layout from '../../components/layout/Layout.astro';
+import ProductGrid from '../../components/shop/ProductGrid.astro';
+import { mockProducts } from '../../data/mockData';
+
+// Duplicar productos para mejor visualización
+const products = [
+  ...mockProducts,
+  {
+    id: '9',
+    name: 'Denim Jacket',
+    slug: 'denim-jacket',
+    price: 129.99,
+    images: ['https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=800&q=80'],
+    category: { name: 'Mujer' },
+  },
+  {
+    id: '10',
+    name: 'Silk Dress',
+    slug: 'silk-dress',
+    price: 189.99,
+    images: ['https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80'],
+    category: { name: 'Mujer' },
+  },
+  {
+    id: '11',
+    name: 'Cotton Trousers',
+    slug: 'cotton-trousers',
+    price: 99.99,
+    images: ['https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&q=80'],
+    category: { name: 'Hombre' },
+  },
+  {
+    id: '12',
+    name: 'Leather Shoes',
+    slug: 'leather-shoes',
+    price: 179.99,
+    images: ['https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&q=80'],
+    category: { name: 'Accesorios' },
+  }
+];
+---
+
+<Layout title="Shop" description="Explora nuestra colección completa">
+  <!-- Hero de colección -->
+  <section class="relative h-[40vh] flex items-end">
+    <img 
+      src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1920&q=80" 
+      alt="Colección"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+    <div class="relative z-10 container pb-12">
+      <h1 class="text-5xl md:text-6xl font-light text-white">Colección Completa</h1>
+    </div>
+  </section>
+
+  <div class="container py-16">
+    <!-- Filtros superiores -->
+    <div class="flex items-center justify-between mb-12">
+      <div class="flex items-center space-x-8">
+        <button class="text-sm tracking-wide hover:opacity-70">
+          FILTROS
+          <span class="ml-2 text-xs">(2)</span>
+        </button>
+        <div class="hidden md:flex items-center space-x-6">
+          <button class="text-sm tracking-wide text-gray-500 hover:text-black">TODOS</button>
+          <button class="text-sm tracking-wide text-gray-500 hover:text-black">MUJER</button>
+          <button class="text-sm tracking-wide text-gray-500 hover:text-black">HOMBRE</button>
+          <button class="text-sm tracking-wide text-gray-500 hover:text-black">ACCESORIOS</button>
+        </div>
+      </div>
+      
+      <div class="flex items-center space-x-2">
+        <span class="text-sm text-gray-500">{products.length} productos</span>
+        <select class="text-sm border-0 bg-transparent focus:outline-none cursor-pointer">
+          <option>ORDENAR POR</option>
+          <option>Precio: Menor a mayor</option>
+          <option>Precio: Mayor a menor</option>
+          <option>Más recientes</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Grid de productos -->
+    <ProductGrid products={products} />
+  </div>
+</Layout>

@@ -1,0 +1,58 @@
+---
+// src/components/shop/ProductCard.astro
+export interface Props {
+  product: {
+    id: string;
+    name: string;
+    slug: string;
+    price: number;
+    sale_price?: number;
+    images: string[];
+    category: { name: string };
+  };
+}
+
+const { product } = Astro.props;
+const discount = product.sale_price 
+  ? Math.round(((product.price - product.sale_price) / product.price) * 100)
+  : 0;
+---
+
+<article class="group cursor-pointer">
+  <a href={`/shop/${product.slug}`} class="block">
+    <!-- Imagen con aspect ratio -->
+    <div class="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4">
+      <img
+        src={product.images[0] || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80'}
+        alt={product.name}
+        loading="lazy"
+        class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+      />
+      
+      {discount > 0 && (
+        <span class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 text-xs font-medium">
+          -{discount}%
+        </span>
+      )}
+      
+      <!-- Overlay en hover -->
+      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+    </div>
+    
+    <!-- Info del producto -->
+    <div class="space-y-1">
+      <p class="text-xs text-gray-500 uppercase tracking-wide">{product.category.name}</p>
+      <h3 class="text-sm font-normal">{product.name}</h3>
+      <div class="flex items-baseline space-x-2">
+        {product.sale_price ? (
+          <>
+            <span class="text-sm font-medium">${product.sale_price}</span>
+            <span class="text-xs text-gray-400 line-through">${product.price}</span>
+          </>
+        ) : (
+          <span class="text-sm font-medium">${product.price}</span>
+        )}
+      </div>
+    </div>
+  </a>
+</article>

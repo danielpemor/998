@@ -1,0 +1,48 @@
+---
+// src/pages/index.astro
+import Layout from '../components/layout/Layout.astro';
+import FeaturedProducts from '../components/home/FeaturedProducts.astro';
+import HeroSection from '../components/home/HeroSection.tsx';
+import EditorialFeatures from '../components/home/EditorialFeatures.tsx';
+import LookbookPreview from '../components/home/LookbookPreview.tsx';
+import CategoryShowcase from '../components/home/CategoryShowcase.tsx';
+import InstagramFeed from '../components/home/InstagramFeed.tsx';
+import Newsletter from '../components/home/Newsletter.tsx';
+---
+
+<Layout title="Inicio" description="Tienda - Redefiniendo el lujo contemporáneo">
+  <!-- Hero Section -->
+  <HeroSection client:load />
+  
+  <!-- Editorial Features -->
+  <EditorialFeatures client:load />
+  
+  <!-- Featured Products -->
+  <FeaturedProducts />
+  
+  <!-- Lookbook Preview -->
+  <LookbookPreview client:load />
+  
+  <!-- Category Showcase -->
+  <CategoryShowcase client:load />
+  
+  <!-- Instagram Feed -->
+  <InstagramFeed client:load />
+  
+  <!-- Newsletter Section -->
+  <section class="relative py-32 overflow-hidden">
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23000000" fill-opacity="1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-5xl md:text-6xl font-light mb-6">Mantente Conectado</h2>
+        <p class="text-lg text-gray-600 mb-12 leading-relaxed">
+          Sé parte de nuestra comunidad exclusiva y recibe acceso anticipado a nuevas colecciones
+        </p>
+        <Newsletter client:load />
+      </div>
+    </div>
+  </section>
+</Layout>

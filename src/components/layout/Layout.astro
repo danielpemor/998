@@ -1,0 +1,90 @@
+---
+// src/components/layout/Layout.astro
+import Footer from './Footer.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Tu tienda de moda favorita' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | TIENDA</title>
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="header-root"></div>
+    
+    <main class="min-h-screen">
+      <slot />
+    </main>
+    
+    <Footer />
+    
+    <div id="cart-drawer-container"></div>
+    
+    <script>
+      import Header from '../layout/Header.tsx';
+      import CartDrawer from '../cart/CartDrawer.tsx';
+      import React from 'react';
+      import ReactDOM from 'react-dom/client';
+      import { cartStore } from '../../stores/cartStore';
+
+// En Layout.astro, actualiza la parte del script para el CartDrawer:
+      document.addEventListener('DOMContentLoaded', () => {
+        // Setup Cart Drawer
+        const cartContainer = document.getElementById('cart-drawer-container');
+        if (cartContainer) {
+          const cartRoot = ReactDOM.createRoot(cartContainer);
+          
+          let isOpen = false;
+          
+          const renderDrawer = () => {
+            cartRoot.render(
+              React.createElement(CartDrawer, {
+                isOpen,
+                onClose: () => {
+                  isOpen = false;
+                  renderDrawer();
+                }
+              })
+            );
+          };
+
+          // Escuchar evento personalizado
+          document.addEventListener('open-cart', () => {
+            isOpen = true;
+            renderDrawer();
+          });
+
+          // También escuchar clicks directos (para compatibilidad)
+          document.addEventListener('click', (e) => {
+            const button = e.target.closest('[aria-label="Abrir carrito"]');
+            if (button) {
+              isOpen = true;
+              renderDrawer();
+            }
+          });
+
+          renderDrawer();
+        }
+      });
+    </script>
+  </body>
+</html>
