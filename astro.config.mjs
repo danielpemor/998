@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
-import netlify from '@astrojs/netlify'; 
+import netlify from '@astrojs/netlify';
 import path from 'path';
 
 export default defineConfig({
@@ -11,7 +11,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        '@layouts': path.resolve('./src/layouts'),
+        '@layouts': path.resolve('./src/components/layout'),
         '@components': path.resolve('./src/components'),
         '@lib': path.resolve('./src/lib'),
       },
