@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
-import vercel from '@astrojs/vercel/server'; // 👈 importante
+import vercel from '@astrojs/vercel'; 
 
 export default defineConfig({
   integrations: [
@@ -9,5 +9,5 @@ export default defineConfig({
     tailwind(),
   ],
   output: 'server',
-  adapter: vercel(), // 👈 agrega el adapter
+  adapter: vercel(),
 });
