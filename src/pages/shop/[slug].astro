@@ -1,0 +1,17 @@
+// src/pages/shop/[slug].astro
+---
+export const prerender = true; // Pre-renderiza páginas estáticas
+
+import { getProductBySlug, getAllProducts } from '../../lib/directus';
+
+// Genera rutas estáticas en build time
+export async function getStaticPaths() {
+  const products = await getAllProducts();
+  return products.map(product => ({
+    params: { slug: product.slug },
+    props: { product }
+  }));
+}
+
+const { product } = Astro.props;
+---
